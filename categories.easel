@@ -1,0 +1,4 @@
+pub tangible category Category:Paddle
+pub tangible category Category:Ball
+pub tangible category Category:Brick
+pub tangible category Category:Boundary

@@ -1,0 +1,12 @@
+[project]
+name = "Bric-a-Brac"
+domain = "easel.games/@raysplaceinspace/bric-a-brac"
+
+[authors]
+"u1z.DHAVSGw" = "raysplaceinspace"
+
+[engine]
+edition = 17
+
+[players]
+selfColor = "#bb00ff"

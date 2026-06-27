@@ -1,0 +1,27 @@
+pub fn ball.Ball(x=0, [owner]) {
+    use body=ball
+    
+    const radius=1, shape=Circle(radius=)
+    const speed=30
+    
+    Body(
+        pos=@(x, 0.25 * BoundaryRadius),
+        velocity=@(0, speed),
+    )
+    PolygonCollider(shape=, category=Category:Ball, restitution=1, intercept=true)
+    PolygonSprite(shape=, color=#00ff44, luminous=1, glare=0.1, bloom=7, shadow=0.5)
+
+    on BeforePhysics {
+        if Velocity.Length < speed {
+            Velocity *= speed / Velocity.Length
+        }
+        
+        if Pos.Y > BoundaryRadius + radius {
+            Expire
+        }
+    }
+
+    on BeforeCollide {
+        Strobe(growth=0.25, shine=0.25)
+    }
+}

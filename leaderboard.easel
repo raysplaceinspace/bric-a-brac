@@ -1,0 +1,54 @@
+pub accumulator owner.BestScore = 0
+pub accumulator owner.BestDurationSeconds
+
+pub fn SubmitToLeaderboard(seconds, [owner]) {
+    let score = 1000 - seconds
+    if score > BestScore {
+        BestScore(showOnLeaderboard=true) = score
+        BestDurationSeconds = seconds
+    }
+}
+
+pub page fn owner.LeaderboardPage() {
+    Content {
+        H1 { "High Scores" }
+        LeaderboardPanel
+    }
+}
+
+prop World.FetchedLeaderboard
+pub fn World.LeaderboardPanel([ui]) {
+    once FetchLeaderboard([&BestScore, &BestDurationSeconds]) leaderboard {
+        FetchedLeaderboard = leaderboard
+    }
+
+    with FetchedLeaderboard {
+        if FetchedLeaderboard {
+            for use index, player in FetchedLeaderboard %%{
+                ShinyPanel(backgroundColor=#b0f, vPadding=0.4) {
+                    HStack {
+                        P(fontSize=0.75, color=#eee, width=1.5, align=Align:Center) {
+                            %(index+1)
+                        }
+                        P(fontSize=1.2, bold=true) {
+                            player.PlayerNameDisplay(color=#fff)
+                        }
+        
+                        Blank(expand=true)
+        
+                        P {
+                            %(player.BestDurationSeconds.FormatWithDecimals(1))
+                            " seconds"
+                        }
+                    }
+                }
+            }
+
+            if FetchedLeaderboard.IsEmpty {
+                P { "No one on the leaderboard... yet" }
+            }
+        } else {
+            P { "Loading..." }
+        }
+    }
+}

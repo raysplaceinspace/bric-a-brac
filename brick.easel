@@ -1,0 +1,24 @@
+pub const BrickWidth = 4
+pub const BrickHeight = 2
+
+pub fn brick.Brick(pos) {
+    use body=brick
+    let shape=Rectangle(width=BrickWidth, height=BrickHeight)
+
+    Body(pos=, immovable=true)
+
+    PolygonCollider(shape=, category=Category:Brick, collideWith=Category:Ball)
+    PolygonSprite(shape=, color=#ffaa55, shading=0.25, shadow=0.5)
+    PolygonPerimeter(shape=)
+
+    once AfterCollide {
+        repeat 5 {
+            Spark(
+                radius=2, color=#ff8800,
+                bloom=3, bloomAlpha=1, glare=1,
+                glaze=true, luminous=1,
+            )
+        }
+        Expire
+    }
+}

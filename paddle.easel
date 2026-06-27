@@ -1,0 +1,61 @@
+field paddle.PaddleBall
+prop owner.KnowsHowToMove = false
+
+pub fn paddle.Paddle([owner]) {
+    use body=paddle
+    
+    let radius=1, extent=2
+    let shape=Capsule(radius=, extent=)
+    let speed=10
+    
+    Body(
+        pos=@(0, BoundaryRadius - radius - 1),
+        immovable=true,
+    )
+    PolygonCollider(shape=, category=Category:Paddle)
+    PolygonSprite(shape=, ownerColor=true, shading=0.5, shadow=0.5)
+
+    on BeforePhysics {
+        let step = 0
+        if IsButtonDown(ArrowLeft) && Pos.X > -(BoundaryRadius - extent - radius) {
+            step -= 1
+        }
+        if IsButtonDown(ArrowRight) && Pos.X < BoundaryRadius - extent - radius {
+            step += 1
+        }
+
+        if step != 0 {
+            KnowsHowToMove = true
+            ForcefulStep(@(step * speed / TicksPerSecond, 0))
+        }
+    }
+
+    on Tick(1s) {
+        if GameConcluded { break }
+        
+        if PaddleBall.Exists {
+            await PaddleBall.BeforeDespawn
+            continue
+        }
+        
+        PaddleBall = Spawn ball {
+            Ball(paddle.Pos.X)
+        }
+    }
+
+    behavior {
+        TopContent<help> {
+            InsetPanel {
+                P {
+                    "Press "
+                    Span(bold=true, color=#0f4) { "Left" }
+                    " or "
+                    Span(bold=true, color=#0f4) { "Right" }
+                    " to move"
+                }
+            }
+        }
+        while !KnowsHowToMove { await KnowsHowToMove }
+        delete TopContent<help>
+    }
+}

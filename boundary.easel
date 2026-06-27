@@ -1,0 +1,16 @@
+pub const BoundaryRadius = 20
+
+pub fn boundary.Boundary(direction=@(1, 0), thickness=100) {
+    use body=boundary
+    
+    let shape = Rectangle(width=thickness, height=(2 * BoundaryRadius + 2 * thickness))
+    
+    Body(
+        immovable=true,
+        let heading=direction.Angle,
+        pos=@(BoundaryRadius + 0.5 * thickness, 0).Rotate(heading),
+    )
+    
+    PolygonCollider(shape=, category=Category:Boundary)
+    PolygonSprite(shape=, color=#181122)
+}
