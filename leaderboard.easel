@@ -1,7 +1,7 @@
 pub accumulator owner.BestScore = 0
 pub accumulator owner.BestDurationSeconds
 
-pub fn SubmitToLeaderboard(seconds, [owner]) {
+pub fn owner.SubmitToLeaderboard(seconds) {
     let score = 1000 - seconds
     if score > BestScore {
         BestScore(showOnLeaderboard=true) = score

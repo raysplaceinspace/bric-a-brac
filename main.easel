@@ -1,8 +1,8 @@
 pub game fn World.Main() {
-    SolidBackground(#222)
     ButtonRemap(KeyA, ArrowLeft)
     ButtonRemap(KeyD, ArrowRight)
     
+    SolidBackground(#222)
     Camera(body=@(0,0), radius=BoundaryRadius)
     CameraBoundary(bottom=BoundaryRadius)
 
@@ -14,18 +14,33 @@ pub game fn World.Main() {
         Subspawn paddle {
             Paddle
         }
-
-        await GameConcluded
-    
-        let seconds = Tick / 1s
-        SubmitToLeaderboard(seconds=)
-        
-        Spawn dialog { PlayAgainDialog(seconds=) }
     }
     
     SpawnBrickGrid
+    Spawn dialog { HelpDialog }
+    
     while QueryAny(filter=Category:Brick) { await Tick }
-    ConcludeGame
+    
+    let seconds = Tick / 1s
+    for owner in QueryPlayers {
+        owner.SubmitToLeaderboard(seconds=)
+    }
+        
+    Spawn dialog { PlayAgainDialog(seconds=) }
+}
+
+fn dialog.HelpDialog() {
+    TopContent {
+        InsetPanel {
+            P {
+                "Press "
+                Span(bold=true, color=#0f4) { "Left" }
+                " or "
+                Span(bold=true, color=#0f4) { "Right" }
+                " to move"
+            }
+        }
+    }
 }
 
 fn dialog.PlayAgainDialog(seconds) {
