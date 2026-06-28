@@ -1,4 +1,3 @@
-field paddle.PaddleBall
 prop owner.KnowsHowToMove = false
 
 pub fn paddle.Paddle([owner]) {
@@ -32,13 +31,7 @@ pub fn paddle.Paddle([owner]) {
 
     on Tick(1s) {
         if GameConcluded { break }
-        
-        if PaddleBall.Exists {
-            await PaddleBall.BeforeDespawn
-            continue
-        }
-        
-        PaddleBall = Spawn ball {
+        await Spawn ball {
             Ball(paddle.Pos.X)
         }
     }
