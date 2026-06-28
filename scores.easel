@@ -1,0 +1,21 @@
+pub prop owner.Score
+
+pub fn this.ScoreSystem([owner]) {
+    TopContent {
+        with Score {
+            if Score > 0 {
+                H1 { %(Score) }
+            } else {
+                InsetPanel {
+                    P {
+                        "Press "
+                        Span(bold=true, color=#0f4) { "Left" }
+                        " or "
+                        Span(bold=true, color=#0f4) { "Right" }
+                        " to move"
+                    }
+                }
+            }
+        }
+    }
+}

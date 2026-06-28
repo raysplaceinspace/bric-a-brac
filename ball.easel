@@ -1,8 +1,8 @@
 pub fn ball.Ball(x=0, [owner]) {
     use body=ball
     
-    const radius=1, shape=Circle(radius=)
-    const speed=30
+    let radius=1, shape=Circle(radius=)
+    let speed=30
     
     Body(
         pos=@(x, 0.25 * BoundaryRadius),
@@ -10,18 +10,24 @@ pub fn ball.Ball(x=0, [owner]) {
     )
     PolygonCollider(shape=, category=Category:Ball, restitution=1, intercept=true)
     PolygonSprite(shape=, color=#00ff44, luminous=1, glare=0.1, bloom=7, shadow=0.5)
+    RecoverSpeed(speed=, speedDecay=0.01)
 
-    on BeforePhysics {
-        if Velocity.Length < speed {
-            Velocity *= speed / Velocity.Length
-        }
-        
-        if Pos.Y > BoundaryRadius + radius {
-            Expire
-        }
+    on Tick {
+        if Pos.Y > BoundaryRadius + radius { Expire }
+
+        Spark(radius=, color=#00ff44, opacity=0.1, glare=0.5, bloom=1, luminous=1, splatter=1)
     }
 
-    on BeforeCollide {
+    let numConsecutiveHits = 0
+    on BeforeCollide that point {
         Strobe(growth=0.25, shine=0.25)
+        
+        if that.Category.Overlaps(Category:Brick) {
+            numConsecutiveHits += 1
+            Score += numConsecutiveHits
+            TextSpark("+" + numConsecutiveHits, radius=0.5, velocity=@(0, -1), color=#fff, fade=1, dissipate=2s, taper=0, strobe=false)
+        } else if that.Category.Overlaps(Category:Paddle) {
+            numConsecutiveHits = 0
+        }
     }
 }

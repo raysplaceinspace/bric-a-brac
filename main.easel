@@ -9,45 +9,27 @@ pub game fn World.Main() {
     Spawn boundary { Boundary(direction=@(-1, 0)) }
     Spawn boundary { Boundary(direction=@(1, 0)) }
     Spawn boundary { Boundary(direction=@(0, -1)) }
+    SpawnBrickGrid
     
     SpawnEachPlayer owner {
+        ScoreSystem
+        
         Subspawn paddle {
             Paddle
         }
-    }
-    
-    SpawnBrickGrid
-    Spawn dialog { HelpDialog }
-    
-    while QueryAny(filter=Category:Brick) { await Tick }
-    
-    let seconds = Tick / 1s
-    for owner in QueryPlayers {
-        owner.SubmitToLeaderboard(seconds=)
-    }
         
-    Spawn dialog { PlayAgainDialog(seconds=) }
-}
-
-fn dialog.HelpDialog() {
-    TopContent {
-        InsetPanel {
-            P {
-                "Press "
-                Span(bold=true, color=#0f4) { "Left" }
-                " or "
-                Span(bold=true, color=#0f4) { "Right" }
-                " to move"
-            }
-        }
+        while QueryAny(filter=Category:Brick) { await Tick }
+        
+        SubmitToLeaderboard(score=Score)
+        Spawn dialog { PlayAgainDialog }
     }
 }
 
-fn dialog.PlayAgainDialog(seconds) {
+fn dialog.PlayAgainDialog([owner]) {
     OverlayContent {
         Standout(animate=Animate:FlyFromTop) { "You won!" }
         VStack(align=Align:Center, animate=Animate:FlyFromBottom) {
-            P { "Time taken: " + seconds.FormatWithDecimals(1) + " seconds" }
+            P { "Your final score: " + Score }
 
             HStack {
                 RaisedButton(Main, backgroundColor=Color:Primary, expand=true) { "Play Again" }

@@ -1,11 +1,8 @@
 pub accumulator owner.BestScore = 0
-pub accumulator owner.BestDurationSeconds
 
-pub fn owner.SubmitToLeaderboard(seconds) {
-    let score = 1000 - seconds
+pub fn owner.SubmitToLeaderboard(score) {
     if score > BestScore {
         BestScore(showOnLeaderboard=true) = score
-        BestDurationSeconds = seconds
     }
 }
 
@@ -18,7 +15,7 @@ pub page fn owner.LeaderboardPage() {
 
 prop World.FetchedLeaderboard
 pub fn World.LeaderboardPanel([ui]) {
-    once FetchLeaderboard([&BestScore, &BestDurationSeconds]) leaderboard {
+    once FetchLeaderboard([&BestScore]) leaderboard {
         FetchedLeaderboard = leaderboard
     }
 
@@ -37,8 +34,8 @@ pub fn World.LeaderboardPanel([ui]) {
                         Blank(expand=true)
         
                         P {
-                            %(player.BestDurationSeconds.FormatWithDecimals(1))
-                            " seconds"
+                            %(player.BestScore)
+                            " points"
                         }
                     }
                 }
