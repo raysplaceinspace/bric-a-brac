@@ -9,6 +9,7 @@ pub game fn World.Main() {
     Spawn boundary { Boundary(direction=@(-1, 0)) }
     Spawn boundary { Boundary(direction=@(1, 0)) }
     Spawn boundary { Boundary(direction=@(0, -1)) }
+    
     SpawnBrickGrid
     
     SpawnEachPlayer owner {

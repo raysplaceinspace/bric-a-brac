@@ -19,7 +19,7 @@ pub fn ball.Ball(x=0, [owner]) {
     }
 
     let numConsecutiveHits = 0
-    on BeforeCollide that point {
+    on BeforeCollide that, point {
         Strobe(growth=0.25, shine=0.25)
         
         if that.Category.Overlaps(Category:Brick) {
