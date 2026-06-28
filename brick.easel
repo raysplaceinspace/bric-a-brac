@@ -14,9 +14,8 @@ pub fn brick.Brick(pos) {
     once AfterCollide {
         repeat 5 {
             Spark(
-                radius=2, color=#ff8800,
-                bloom=3, bloomAlpha=1, glare=1,
-                glaze=true, luminous=1,
+                radius=2, color=#ff8800, luminous=1,
+                bloom=3, bloomAlpha=1, glare=1, glaze=true,
             )
         }
         Expire
