@@ -1,6 +1,6 @@
 [project]
 name = "Bric-a-Brac"
-domain = "easel.games/@raysplaceinspace/bric-a-brac"
+domain = "bricabrac.easel.games"
 
 [authors]
 "u1z.DHAVSGw" = "raysplaceinspace"

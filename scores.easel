@@ -7,12 +7,18 @@ pub fn this.ScoreSystem([owner]) {
                 H1 { %(Score) }
             } else {
                 InsetPanel {
-                    P {
-                        "Press "
-                        Span(bold=true, color=#0f4) { "Left" }
-                        " or "
-                        Span(bold=true, color=#0f4) { "Right" }
-                        " to move"
+                    TouchscreenOnly {
+                        P {
+                            Span(bold=true, color=#0f4) { "Swipe" }
+                            " the screen to control your paddle"
+                        }
+                    }
+                    NonTouchscreenOnly {
+                        P {
+                            "Move your "
+                            Span(bold=true, color=#0f4) { "mouse" }
+                            " to control your paddle"
+                        }
                     }
                 }
             }
