@@ -4,6 +4,7 @@ pub page fn owner.HomePage {
             Icon("fa-solid fa-trophy")
             " Leaderboard"
         }
+        PartyToggle
     }
     
     ContentScreen {

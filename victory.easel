@@ -1,0 +1,13 @@
+pub fn dialog.VictoryDialog([owner]) {
+    OverlayContent {
+        Standout(animate=Animate:FlyFromTop) { "You won!" }
+        VStack(align=Align:Center, animate=Animate:FlyFromBottom) {
+            P { "Your final score: " + Score }
+
+            HStack {
+                RaisedButton(Main, backgroundColor=Color:Primary, expand=true) { "Play Again" }
+                RaisedButton(LeaderboardPage, backgroundColor=Color:Secondary, expand=true) { "High Scores" }
+            }
+        }
+    }
+}

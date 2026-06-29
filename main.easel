@@ -1,4 +1,4 @@
-pub game fn World.Main() {
+pub game fn World.Main(maxHumanPlayers=2) {
     ButtonRemap(KeyA, ArrowLeft)
     ButtonRemap(KeyD, ArrowRight)
     
@@ -18,36 +18,12 @@ pub game fn World.Main() {
         Subspawn paddle {
             Paddle
         }
-        
-        while QueryAny(filter=Category:Brick) { await Tick }
-        
+
+        await GameConcluded
         SubmitToLeaderboard(score=Score)
-        Spawn dialog { PlayAgainDialog }
+        Spawn dialog { VictoryDialog }
     }
-}
-
-fn dialog.PlayAgainDialog([owner]) {
-    OverlayContent {
-        Standout(animate=Animate:FlyFromTop) { "You won!" }
-        VStack(align=Align:Center, animate=Animate:FlyFromBottom) {
-            P { "Your final score: " + Score }
-
-            HStack {
-                RaisedButton(Main, backgroundColor=Color:Primary, expand=true) { "Play Again" }
-                RaisedButton(LeaderboardPage, backgroundColor=Color:Secondary, expand=true) { "High Scores" }
-            }
-        }
-    }
-}
-
-fn SpawnBrickGrid(colMargin=2, rowMargin=2) {
-    let numColsPerSide = Floor(BoundaryRadius / BrickWidth) - colMargin
-    let numRows = Floor(BoundaryRadius / BrickHeight) - rowMargin
-    for row in Range(0, numRows) {
-        for col in RangeInclusive(-numColsPerSide, numColsPerSide) {
-            Spawn brick {
-                Brick(pos=@(col * BrickWidth, -row * BrickHeight))
-            }
-        }
-    }
+    
+    while QueryAny(filter=Category:Brick) { await Tick }
+    ConcludeGame
 }

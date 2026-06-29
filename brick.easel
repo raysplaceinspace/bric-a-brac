@@ -21,3 +21,15 @@ pub fn brick.Brick(pos) {
         Expire
     }
 }
+
+pub fn SpawnBrickGrid(colMargin=2, rowMargin=2) {
+    let numColsPerSide = Floor(BoundaryRadius / BrickWidth) - colMargin
+    let numRows = Floor(BoundaryRadius / BrickHeight) - rowMargin
+    for row in Range(0, numRows) {
+        for col in RangeInclusive(-numColsPerSide, numColsPerSide) {
+            Spawn brick {
+                Brick(pos=@(col * BrickWidth, -row * BrickHeight))
+            }
+        }
+    }
+}
